@@ -33,8 +33,8 @@ class _QRCodeScanState extends State<QRCodeScan> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        child: Scaffold(
+    return
+         Scaffold(
           body: Stack(
             children: <Widget>[
               _buildQrView(context),
@@ -42,10 +42,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
               // _buildToolOverlay(),
             ],
           ),
-        ),
-        onWillPop: () async {
-          return true;
-        });
+        );
   }
 
   Widget _buildToolOverlay() {
@@ -156,7 +153,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
     // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
-      cameraFacing: CameraFacing.front,
+      cameraFacing: CameraFacing.back,
       onQRViewCreated: _onQRViewCreated,
       formatsAllowed: [BarcodeFormat.qrcode],
       overlay: QrScannerOverlayShape(
