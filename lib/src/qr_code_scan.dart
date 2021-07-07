@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRCodeScan extends StatefulWidget {
-  const QRCodeScan({
-    Key key,
-  }) : super(key: key);
+  /// 提示语
+  final String tip;
+
+  const QRCodeScan({this.tip});
 
   @override
   State<StatefulWidget> createState() => _QRCodeScanState();
@@ -33,16 +34,32 @@ class _QRCodeScanState extends State<QRCodeScan> {
 
   @override
   Widget build(BuildContext context) {
-    return
-         Scaffold(
-          body: Stack(
-            children: <Widget>[
-              _buildQrView(context),
-              _buildBackButton(context),
-              // _buildToolOverlay(),
-            ],
-          ),
-        );
+    var scanArea = (MediaQuery.of(context).size.width < 400 ||
+            MediaQuery.of(context).size.height < 400)
+        ? 200.0
+        : 300.0;
+    final height = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          _buildQrView(context),
+          _buildBackButton(),
+          if (widget.tip != null && widget.tip.isNotEmpty)
+            Positioned(
+              top: (height + scanArea) / 2 + 16,
+              right: 16,
+              left: 16,
+              child: Text(
+                widget.tip,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          // _buildToolOverlay(),
+        ],
+      ),
+    );
   }
 
   Widget _buildToolOverlay() {
@@ -125,7 +142,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
     );
   }
 
-  Widget _buildBackButton(BuildContext context) {
+  Widget _buildBackButton() {
     return Positioned(
       left: 0,
       top: 0,
