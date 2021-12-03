@@ -1,17 +1,17 @@
 name: hwkj_qr_scan
 description: A new Flutter package.
-version: 0.0.1
-author:
-homepage:
+version: 0.1.0
+#homepage:
+repository: https://gitlab-dev.kangfx.com/kangfx/app/hwkj_qr_scan
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  qr_code_scanner: ^0.3.0
+  qr_code_scanner: ^0.6.1
 
 dev_dependencies:
   flutter_test:
