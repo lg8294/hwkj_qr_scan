@@ -1,6 +1,6 @@
 # hwkj_qr_scan
 
-A new Flutter package.
+扫描二维码
 
 ## Getting Started
 
