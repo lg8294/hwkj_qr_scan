@@ -7,7 +7,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRCodeScan extends StatefulWidget {
   /// 提示语
-  final String tip;
+  final String? tip;
 
   const QRCodeScan({this.tip});
 
@@ -16,8 +16,8 @@ class QRCodeScan extends StatefulWidget {
 }
 
 class _QRCodeScanState extends State<QRCodeScan> {
-  Barcode result;
-  QRViewController controller;
+  Barcode? result;
+  QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -26,9 +26,9 @@ class _QRCodeScanState extends State<QRCodeScan> {
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller.pauseCamera();
+      controller!.pauseCamera();
     } else if (Platform.isIOS) {
-      controller.resumeCamera();
+      controller!.resumeCamera();
     }
   }
 
@@ -45,13 +45,13 @@ class _QRCodeScanState extends State<QRCodeScan> {
         children: <Widget>[
           _buildQrView(context),
           _buildBackButton(),
-          if (widget.tip != null && widget.tip.isNotEmpty)
+          if (widget.tip != null && widget.tip!.isNotEmpty)
             Positioned(
               top: (height + scanArea) / 2 + 16,
               right: 16,
               left: 16,
               child: Text(
-                widget.tip,
+                widget.tip!,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.white),
               ),
@@ -72,7 +72,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
           children: <Widget>[
             if (result != null)
               Text(
-                  'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
+                  'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
             else
               Text('Scan a code'),
             Row(
@@ -81,7 +81,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.all(8),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                       onPressed: () => setState(() {
                             controller?.toggleFlash();
                           }),
@@ -94,7 +94,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
                 ),
                 Container(
                   margin: EdgeInsets.all(8),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                       onPressed: () => setState(() {
                             controller?.flipCamera();
                           }),
@@ -103,9 +103,9 @@ class _QRCodeScanState extends State<QRCodeScan> {
                         builder: (context, snapshot) {
                           if (snapshot.data != null) {
                             return Text(
-                                'Camera facing ${describeEnum(snapshot.data)}');
+                                'Camera facing ${describeEnum(snapshot.data!)}');
                           } else {
-                            return Text('loading');
+                            return const Text('loading');
                           }
                         },
                       )),
@@ -118,7 +118,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.all(8),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       controller?.pauseCamera();
                     },
@@ -127,7 +127,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
                 ),
                 Container(
                   margin: EdgeInsets.all(8),
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       controller?.resumeCamera();
                     },
@@ -183,7 +183,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
     );
   }
 
-  StreamSubscription _scannedDataSubscription;
+  StreamSubscription? _scannedDataSubscription;
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
@@ -195,7 +195,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
         flag = false;
         print(scanData.code);
         this.result = scanData;
-        this.controller.pauseCamera();
+        this.controller!.pauseCamera();
         Navigator.pop(context, scanData.code);
       }
     });
@@ -204,7 +204,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
   @override
   void dispose() {
     _scannedDataSubscription?.cancel();
-    controller.dispose();
+    controller!.dispose();
     super.dispose();
   }
 }

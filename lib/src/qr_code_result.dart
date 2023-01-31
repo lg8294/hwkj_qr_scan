@@ -6,7 +6,7 @@ enum QRCodeResultState {
 
 class QRCodeResult {
   final QRCodeResultState state;
-  final String data;
+  final String? data;
 
   QRCodeResult.success(this.data) : state = QRCodeResultState.success;
   QRCodeResult.cancel()
