@@ -195,7 +195,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
         flag = false;
         print(scanData.code);
         this.result = scanData;
-        this.controller!.pauseCamera();
+        this.controller?.pauseCamera();
         Navigator.pop(context, scanData.code);
       }
     });
@@ -204,7 +204,7 @@ class _QRCodeScanState extends State<QRCodeScan> {
   @override
   void dispose() {
     _scannedDataSubscription?.cancel();
-    controller!.dispose();
+    controller?.dispose();
     super.dispose();
   }
 }
